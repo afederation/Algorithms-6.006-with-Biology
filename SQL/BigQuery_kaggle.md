@@ -27,14 +27,20 @@ hacker_news.head("full", selected_columns="by", num_rows=10)
 
 [Link](https://www.kaggle.com/dansbecker/select-from-where)
 
+**SELECT and FROM**
+
 We use the keywords SELECT, FROM and WHERE to get data from specific columns based on conditions you specify. The most basic SQL query selects a single column from a single table. To do this, you specify the column you want after the word SELECT and then specify what table to pull the column from after the word FROM.
 
-Syntax: 
+Syntax. Note that the argument we pass to FROM is not in single or double quotation marks (' or "). It is in backticks. We use it to identify the relevant BigQuery data source.
+
+Capitalization of the commands is not required, but it is good style.
 
 ```sql
 SELECT [ColumnName]
-FROM[BigQueryName.DatabaseName.TableName]
+FROM [BigQueryName.DatabaseName.TableName]
 ```
 
+**Where**
 
+Allows to specifiy a condition for the retrival 
 
