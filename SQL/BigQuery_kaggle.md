@@ -12,7 +12,7 @@ A nice feature of BigQuery is it's python interface. It uses a package called bq
 import bq_helper
 ```
 
-The focus on this lesson was just looking at a datatable, the code examples are below:
+The focus on this lesson was just looking at a data table, the code examples are below:
 
 ```python
 hacker_news = bq_helper.BigQueryHelper(active_project= "bigquery-public-data", 
@@ -42,5 +42,42 @@ FROM [BigQueryName.DatabaseName.TableName]
 
 **Where**
 
-Allows to specifiy a condition for the retrival 
+Allows you to specify a condition for the retrieval. 
+
+```sql
+SELECT [ColumnName]
+FROM [BigQueryName.DatabaseName.TableName]
+WHERE Animal == 'Cat'
+```
+
+Now, here's an example with the python helper scripts applied to the US clean air dataset.
+
+```python
+import bq_helper
+open_aq = bq_helper.BigQueryHelper(active_project="bigquery-public-data",
+                                   dataset_name="openaq")
+open_aq.head("global_air_quality"). #this is the only table in the SQL database
+```
+
+We can look at the data table, includes a "city" column and a "country" column. So if we want to find all US cities, this would be the query string:
+
+```python
+# query to select all the items from the "city" column where the
+# "country" column is "us"
+query = """SELECT city
+            FROM `bigquery-public-data.openaq.global_air_quality`
+            WHERE country = 'US'
+        """
+us_cities = open_aq.query_to_pandas_safe(query)
+```
+
+This results in a Pandas dataframe. You can query multiple columns by using a comma. Can also query all columns using `*`.
+
+What is the `query_to_pandas_safe(query, max_gb=0.1)` function do? It keeps us from pulling too much data in a single query. Another trick to prevent this is to estimate the size of the query before executing it with `BigQueryHelper.estimate_query_size()`. The estimate is given in GB.
+
+
+
+
+
+
 
