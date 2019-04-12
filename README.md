@@ -7,4 +7,13 @@ These are my notes from my Summer 2019 self-education on machine learning and ad
 
 ### SQL
 
-SQL with BigQuery from kaggle
+1. SQL with BigQuery from kaggle
+
+
+### Textbooks
+
+These are all open source...
+
+1. 
+2. 
+3. 
