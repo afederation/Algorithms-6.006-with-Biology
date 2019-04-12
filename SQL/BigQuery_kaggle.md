@@ -75,7 +75,12 @@ This results in a Pandas dataframe. You can query multiple columns by using a co
 
 What is the `query_to_pandas_safe(query, max_gb=0.1)` function do? It keeps us from pulling too much data in a single query. Another trick to prevent this is to estimate the size of the query before executing it with `BigQueryHelper.estimate_query_size()`. The estimate is given in GB.
 
+Cool trick - if you want to only return a result once, use the `DISTINCT` command. Like this:
 
+query = """SELECT DISTINCT city
+            FROM `bigquery-public-data.openaq.global_air_quality`
+            WHERE country = 'US'
+        """
 
 
 
