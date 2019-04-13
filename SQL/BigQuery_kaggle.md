@@ -40,7 +40,7 @@ SELECT [ColumnName]
 FROM [BigQueryName.DatabaseName.TableName]
 ```
 
-**Where**
+**WHERE**
 
 Allows you to specify a condition for the retrieval. 
 
@@ -77,12 +77,29 @@ What is the `query_to_pandas_safe(query, max_gb=0.1)` function do? It keeps us f
 
 Cool trick - if you want to only return a result once, use the `DISTINCT` command. Like this:
 
+```python
 query = """SELECT DISTINCT city
             FROM `bigquery-public-data.openaq.global_air_quality`
             WHERE country = 'US'
         """
+```
 
+## Lesson 3
 
+### Count
+
+COUNT(column_name) will return the number of entries in that column. So if we SELECT the COUNT() of the ID column, it will return the number of ID's in that column.
+
+```sql
+SELECT COUNT(ID)
+FROM `bigquery-public-data.pet_records.pets`
+```
+
+### GROUP BY
+
+GROUP BY takes the name of a column and groups all the rows with the same value when you apply an **aggregate function**, like COUNT() for example. Other aggregate functions include AVG(), SUM(), etc. GROUP BY is always associated with either
+1. Another GROUP BY 
+2. An aggregate function
 
 
 
