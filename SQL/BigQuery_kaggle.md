@@ -1,10 +1,9 @@
 # SQL with BigQuery
 
+[Course Homepage](https://www.kaggle.com/learn/SQL)
+
 ## Lesson 1
-
-[Link](https://www.kaggle.com/dansbecker/getting-started-with-sql-and-bigquery)
-
-[BigQuery](https://cloud.google.com/bigquery/docs/) is Google's fully managed, petabyte scale, low cost analytics data warehouse. BigQuery is NoOps—there is no infrastructure to manage and you don't need a database administrator—so you can focus on analyzing data to find meaningful insights, use familiar SQL, and take advantage of our pay-as-you-go model.
+*From Google's description:* BigQuery](https://cloud.google.com/bigquery/docs/) is Google's fully managed, petabyte scale, low cost analytics data warehouse. BigQuery is NoOps—there is no infrastructure to manage and you don't need a database administrator—so you can focus on analyzing data to find meaningful insights, use familiar SQL, and take advantage of our pay-as-you-go model.
 
 A nice feature of BigQuery is it's python interface. It uses a package called bq_helper to perform SQL queries and manipulations.
 
@@ -25,9 +24,7 @@ hacker_news.head("full", selected_columns="by", num_rows=10)
 
 ## Lesson 2
 
-[Link](https://www.kaggle.com/dansbecker/select-from-where)
-
-**SELECT and FROM**
+### SELECT and FROM
 
 We use the keywords SELECT, FROM and WHERE to get data from specific columns based on conditions you specify. The most basic SQL query selects a single column from a single table. To do this, you specify the column you want after the word SELECT and then specify what table to pull the column from after the word FROM.
 
@@ -40,7 +37,7 @@ SELECT [ColumnName]
 FROM [BigQueryName.DatabaseName.TableName]
 ```
 
-**WHERE**
+### WHERE
 
 Allows you to specify a condition for the retrieval.
 
@@ -115,14 +112,56 @@ GROUP BY Animal
 HAVING COUNT(ID) > 1
 ```
 
-### Common Tasks
+A common task is to count the number of rows in a group. You can use the COUNT(1) function. You can also add a condition:
 
-To count the number of rows in a group, you can use the COUNT(1) function. You can also add a condition:
-
-```python
-deleted_query = """
-                SELECT COUNT(1)
-                FROM `bigquery-public-data.hacker_news.comments`
-                WHERE deleted = True
-                """
+```sql
+SELECT COUNT(1)
+FROM `bigquery-public-data.hacker_news.comments`
+WHERE deleted = True
 ```
+
+## Lesson 4
+
+Now that we can gather and group data, we want to be able to re-arrange the order of the data.
+
+### ORDER BY
+
+The last clause of the query.
+
+```sql
+...
+ORDER BY column
+```
+
+Will order numerical columns smallest to biggest and text columns alphabetically. To reverse the order, add `DESC` at the end of the command.
+
+### DATES
+
+
+In BigQuery, dates are stores as DATE or DATETIME. The date format is the following:
+
+`YYYY-[M]M-[D]D`
+
+Where both the month and day are either one or two digits. DATETIME is the same, except with the time added onto the end.
+
+
+To return only part of the date, use the **EXTRACT** command.
+
+```sql
+SELECT EXTRACT(DAY FROM column_with_timestamp)
+FROM `bigquery-public-data.imaginary_dataset.imaginary_table`
+```
+
+SQL can handle more advanced queries from dates as well. For example, you can use `EXTRACT(WEEK ...)` to get the number of the week (from 1-53). `DAYOFWEEK` is another useful one.
+
+Example query:
+
+```sql
+SELECT COUNT(consecutive_number) AS num_accidents, 
+                  EXTRACT(DAYOFWEEK FROM timestamp_of_crash) AS day_of_week
+FROM `bigquery-public-data.nhtsa_traffic_fatalities.accident_2015`
+GROUP BY day_of_week
+ORDER BY num_accidents DESC
+```
+
+
