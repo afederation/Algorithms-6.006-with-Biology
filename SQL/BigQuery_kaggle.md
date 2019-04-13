@@ -15,7 +15,7 @@ import bq_helper
 The focus on this lesson was just looking at a data table, the code examples are below:
 
 ```python
-hacker_news = bq_helper.BigQueryHelper(active_project= "bigquery-public-data", 
+hacker_news = bq_helper.BigQueryHelper(active_project= "bigquery-public-data",
                                        dataset_name = "hacker_news")
 hacker_news.list_tables()         # show what tables exist within the database
 hacker_news.table_schema("full")  # show the schema for each column - name, data type, nullable and description
@@ -42,7 +42,7 @@ FROM [BigQueryName.DatabaseName.TableName]
 
 **WHERE**
 
-Allows you to specify a condition for the retrieval. 
+Allows you to specify a condition for the retrieval.
 
 ```sql
 SELECT [ColumnName]
@@ -95,11 +95,34 @@ SELECT COUNT(ID)
 FROM `bigquery-public-data.pet_records.pets`
 ```
 
+**Aliasing** is a way to name the new column you create with a COUNT() function. So instead, would use the command `SELECT COUNT(ID) AS count`
+
+
 ### GROUP BY
 
-GROUP BY takes the name of a column and groups all the rows with the same value when you apply an **aggregate function**, like COUNT() for example. Other aggregate functions include AVG(), SUM(), etc. GROUP BY is always associated with either
-1. Another GROUP BY 
+GROUP BY takes the name of a column and groups all the rows with the same value when you apply an **aggregate function**, like COUNT() for example. Other aggregate functions include AVG(), SUM(), etc. GROUP BY is always associated with either:
+1. Another GROUP BY
 2. An aggregate function
 
+### GROUP BY ... HAVING
 
+HAVING adds a condition to the GROUP BY command. Example:
 
+```sql
+SELECT Animal, COUNT(ID)
+FROM `bigquery-public-data.pet_records.pets`
+GROUP BY Animal
+HAVING COUNT(ID) > 1
+```
+
+### Common Tasks
+
+To count the number of rows in a group, you can use the COUNT(1) function. You can also add a condition:
+
+```python
+deleted_query = """
+                SELECT COUNT(1)
+                FROM `bigquery-public-data.hacker_news.comments`
+                WHERE deleted = True
+                """
+```
