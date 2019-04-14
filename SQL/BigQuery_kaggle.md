@@ -3,6 +3,7 @@
 [Course Homepage](https://www.kaggle.com/learn/SQL)
 
 ## Lesson 1
+
 *From Google's description:* BigQuery](https://cloud.google.com/bigquery/docs/) is Google's fully managed, petabyte scale, low cost analytics data warehouse. BigQuery is NoOps—there is no infrastructure to manage and you don't need a database administrator—so you can focus on analyzing data to find meaningful insights, use familiar SQL, and take advantage of our pay-as-you-go model.
 
 A nice feature of BigQuery is it's python interface. It uses a package called bq_helper to perform SQL queries and manipulations.
@@ -164,4 +165,24 @@ GROUP BY day_of_week
 ORDER BY num_accidents DESC
 ```
 
+## Lesson 5
 
+### WITH...AS
+
+**Common Table Expressions** (CTEs) are a way to create temporary tables within your query that are subject to additional queries. They don't exist after the query finishes running. This helps break code into chunks that are easier to read. Here's a simple example:
+
+```sql
+WITH Seniors AS 
+        (
+            SELECT ID, Name
+            FROM `bigquery-public-data.pet_records.pets`
+            WHERE Years_old > 5
+        )
+```
+
+Then, under the CTE, you can perform additional queries:
+
+```sql
+SELECT ...
+FROM Seniors
+```
