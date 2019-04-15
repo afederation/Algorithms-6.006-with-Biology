@@ -186,3 +186,67 @@ Then, under the CTE, you can perform additional queries:
 SELECT ...
 FROM Seniors
 ```
+
+## Lesson 6
+
+### JOIN
+
+If you have two data tables that you want to combine data from, this is the tool to use. The key is to have a column in both tables that allows you to link the rows together. Here's there example which has two tables: one for pets and one for the owners. It's important to name each table you're using and specify throughout the query, in case some columns have the same name. ON is how you specify which columns are used for the joining.
+
+```sql
+SELECT p.Name AS Pet_Name, o.Name as Owner_Name
+FROM `bigquery-public-data.pet_records.pets` as p
+INNER JOIN `bigquery-public-data.pet_records.owners` as o 
+    ON p.ID = o.Pet_ID
+```
+
+### INNER JOIN
+
+A row will only be put in the final output table if the value in the column you're using to combine them shows up in both the tables you're joining. For example, if Tom's ID code of 4 didn't exist in the "pets" table, we would only get 3 rows back from this query. There are other types of JOIN, but an INNER JOIN is very widely used.
+
+## Additional Notes
+
+I also checked out [Mode](https://mode.com/sql-tutorial/)'s SQL tutorials to find some additional commands that look like they'll be useful.
+
+### LIKE
+
+LIKE is a way to make more general queries for text data. ILIKE is a related command that ignores text case when querying data. `%` is used as the wild-card character for the LIKE commands. `_` is used to indicate a wild-card for a single character
+
+```sql
+SELECT *
+  FROM tutorial.billboard_top_100_year_end
+ WHERE "group" ILIKE 'snoop%'
+ ```
+
+### IN, BETWEEN
+
+These are both ways to do more complex logical operations within a WHERE statement. IN lets you retrieve matches from a vector of possibilities, and this works with numbers and with text. BETWEEN...AND lets you retrieve matches that are between two values.
+
+```sql
+SELECT *
+  FROM tutorial.billboard_top_100_year_end
+ WHERE artist IN ('Taylor Swift', 'Usher', 'Ludacris')
+```
+
+```sql
+SELECT *
+FROM tutorial.billboard_top_100_year_end
+WHERE year_rank BETWEEN 5 AND 10
+```
+
+A note for BETWEEN - it includes the edge cases (5 and 10 are included, in this example)
+
+### CASE, WHEN, THEN, ELSE
+
+This is how if/then logic is implemented. CASE is always followed by at least one pair of WHEN and THEN statements (the equivalent of IF/THEN). Every CASE must end with and END. Here's an example from a football roster data table:
+
+```sql
+SELECT player_name,
+       year,
+       CASE WHEN year = 'SR' THEN 'yes'
+            ELSE NULL END AS is_a_senior
+  FROM benn.college_football_players
+```
+
+This query looks at the 'year' column. If the player is a 'SR', then it creates a column with the 'yes' value. Otherwise, it leaves that column as NULL.
+
