@@ -1,4 +1,4 @@
-# Data Structures and Algorithms
+# Data Structures and Algorithms - Part 1 (Lists)
 
 Using this [free course](https://classroom.udacity.com/courses/ud513) from Microfost and this [textbook](https://opendatastructures.org/) by Pat Morin to review algorithms before diving too deep into my machine learning curriculum. 
 
@@ -21,6 +21,10 @@ BigO notation is the way programmers and computer scientists discuss efficiency.
 
 Ex: `5nlog(n)+8n−200` runs in `nlog(n)` time 
 
+-Big Ω: the best-case scenario. The Big Ω of an algorithm describes how quickly an algorithm can run under the best of circumstances.
+-Big O: the worst-case scenario. Typically, we are most concerned with the Big O time because we are interested in how slowly a given algorithm will run, at worst. How do we essentially make the ‘worst-case’ not as bad as it could be?
+-Big θ: this can only be used to describe the run-time of an algorithm if the Big Ω and the Big O are the same. That is, the algorithm’s run time is the same in both the best and worst cases.
+
 
 ### Common Data Interfaces
 
@@ -41,5 +45,93 @@ The **Unordered Set** contains n distinct elements; no element appears more than
 ![uset](./img/uset_imp.png)
 
 ![sset](./img/sset_imp.png)
+
+## Array Lists
+
+Summary of the structures talked about in this chapter
+
+![ch2](./img/ch2.png)
+
+Data structures that store values in an array have some advantages and disadvantages in common:
+- Arrays offer constant time access to any value in the array
+- Arrays are not dynamic. Adding or removing an element near the middle of a list means that a large number of elements in the array need to be shifted to make room for the newly added element.
+- Arrays cannot expand or shrink. *When the number of elements in the data structure exceeds the size of the backing array, a new array must be created.*
+ 
+### ArrayStack
+
+An array stack is an implementation of the list interface. It uses a large array a (larger than the number of values in the list). You also need a value n to keep track of the number of elements actually in a.
+
+Initialize:
+```python
+a = []
+n = 0
+```
+
+Accessing and modifying the elements of an ArrayStack using get(i) and set(i,x) is trivial.
+
+```python 
+def get(i, a):
+
+	return a[i]
+
+def set(i, x, a)
+
+	y = a[i] #save and return the old value of a[i]
+	a[i] = x
+	return y
+```
+
+Resizing is a little more complicated. To implement the add(i,x) operation, we first check if a is already full. If so, we call the method resize() to increase the size of a. With this out of the way, we now shift the elements a[i], . . . , a[n − 1] right by one position to make room for x, set a[i] equal to x, and increment n. remove(i,x) is the same idea, except we only resize if a is getting way smaller than n to save memory.
+
+If we ignore the cost of the potential call to resize(), then the cost of the add(i, x) operation is proportional to the number of elements we have to shift to make room for x. Therefore the cost of this operation (ignoring the cost of resizing a) is O(n − i).
+
+```python
+def add(i, x):
+	if n = length(a): 
+		resize() 
+	a[i+1,i+2,...,n] = a[i,i+1,...,n−1] #shift up everything to the right of i
+	a[i] = x
+	n = n++
+```
+
+### ArrayQueue
+
+This is a first-in-first-out (FIFO) queue. An ArrayStack would be a poor way to implement this. Since you need to use both ends of the list, one of the two operations must work on the head of the list, which involves calling add(i,x) or remove(i) with a value of i = 0. This gives a running time proportional to O(n).
+
+The trick for this is to use modular arithmatic to simulate a circular array. (modular arithmatic is what we use for time: 15:00 % 12:00 = 3:00). The image does a good job showing how this works. Use j to store where the next value to remove is and use n to keep track of the legnth of the array
+
+```python
+def init():
+	a = []
+	n = 0
+	j = 0
+
+def add(x):
+
+	if n+1 > len(a):
+		resize()
+
+	n = n + 1
+
+	a[(j+n)%a] = x #puts x at the end of the circle
+
+def remove():
+
+	x = a[j]
+
+	j = (j++ % a) #move down the array, or wrap back if at the end
+
+	n = n - 1
+
+	if length(a) ≥ (3*n): 
+		resize() 
+
+	return x
+```
+
+![arrayqueue](./img/arrayqueue.png)
+
+### ArrayDeck
+
 
 
