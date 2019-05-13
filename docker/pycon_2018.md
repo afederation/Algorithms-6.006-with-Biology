@@ -505,3 +505,9 @@ Create one file per project named docker-compose.yml
 **Cheat Sheet**
 
 ![cheatsheet](./cheatsheet.png)
+
+See examples of docker-compose files in the slides.
+
+Networks are automatically set up as default, no specification required.
+
+docker-compose.override.yml is a default override file
